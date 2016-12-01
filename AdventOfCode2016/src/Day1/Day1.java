@@ -48,16 +48,16 @@ public class Day1 {
     public static void main(String[] args) {
         String input;
         String[] splitDirections;
+        ArrayList<String> directions = new ArrayList<>();
         int direction = 0;
         int x = 0;
         int y = 0;
         int hqX = 0;
         int hqY = 0;
         int totalDistance;
-        int hqDistance = 0;
+        int hqDistance;
         Pattern p = Pattern.compile("\\d+");
         Matcher m;
-        ArrayList<String> directions = new ArrayList<>();
 
         try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
             while((input = in.readLine()) != null) {

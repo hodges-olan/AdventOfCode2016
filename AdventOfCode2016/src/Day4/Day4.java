@@ -32,7 +32,6 @@
 
 package Day4;
 
-import Day2.Day2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -89,7 +88,7 @@ public class Day4 {
                 INPUT.add(read.trim());
             }
         } catch (IOException ex) {
-            Logger.getLogger(Day2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Day4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

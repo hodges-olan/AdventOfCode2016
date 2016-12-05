@@ -30,7 +30,6 @@
 
 package Day3;
 
-import Day2.Day2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -86,7 +85,7 @@ public class Day3 {
                 TRIANGLES.add(nums);
             }
         } catch (IOException ex) {
-            Logger.getLogger(Day2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Day3.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

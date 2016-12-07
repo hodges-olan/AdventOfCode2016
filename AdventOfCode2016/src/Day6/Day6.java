@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 71100096
+ * @author hodges-olan
  */
 public class Day6 {
     

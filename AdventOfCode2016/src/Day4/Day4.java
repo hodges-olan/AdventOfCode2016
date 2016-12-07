@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author 71100096
+ * @author hodges-olan
  */
 public class Day4 {
     private static final String FILEPATH = "day4.txt";

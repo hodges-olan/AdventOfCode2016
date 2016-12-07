@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author 71100096
+ * @author hodges-olan
  */
 public class Day5 {
     public static void main(String[] args) {

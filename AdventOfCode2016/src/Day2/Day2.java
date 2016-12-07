@@ -59,7 +59,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 71100096
+ * @author hodges-olan
  */
 public class Day2 {
     private static final String FILEPATH = "day2.txt";

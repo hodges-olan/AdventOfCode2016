@@ -40,9 +40,13 @@ import java.util.logging.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * @author hodges-olan
+ */
 public class Day1 {
-    private final static String FILEPATH = "day1.txt";
-    private static int[][] blocks = new int[10000][10000];
+    private static final String FILEPATH = "day1.txt";
+    private static final int[][] BLOCKS = new int[10000][10000];
     private static boolean hqFound = false;
     
     public static void main(String[] args) {
@@ -104,8 +108,8 @@ public class Day1 {
                         x--;
                         break;
                 }
-                blocks[x+5000][y+5000]++;
-                if (blocks[x+5000][y+5000] > 1 && !hqFound) {
+                BLOCKS[x+5000][y+5000]++;
+                if (BLOCKS[x+5000][y+5000] > 1 && !hqFound) {
                     hqFound = true;
                     hqX = x;
                     hqY = y;

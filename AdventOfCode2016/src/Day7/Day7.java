@@ -57,8 +57,19 @@ public class Day7 {
         return total;
     }
     
-    private static String partTwo() {
-        return "NOT YET";
+    private static int partTwo() {
+        int total = 0;
+        for(String eachInput : INPUT) {
+            String address = compileString("^\\w+|\\w+$|(?<=\\])\\w+", eachInput);
+            ArrayList<String> matches = findABA(address);
+            if(!matches.isEmpty()) {
+                String hypernetAddress = compileString("(?<=\\[)\\w+", eachInput);
+                if(findBAB(matches, hypernetAddress)) {
+                    total++;
+                }
+            }
+        }
+        return total;
     }
     
     private static boolean findABBA(String string) {
@@ -71,12 +82,38 @@ public class Day7 {
         return false;
     }
     
+    private static ArrayList<String> findABA(String string) {
+        ArrayList<String> matches = new ArrayList<>();
+        for(int i = 0; i < (string.length()-3); i++) {
+            if(string.substring(i,i+1).equals(string.substring(i+2,i+3))
+                    && !string.substring(i,i+1).equals(string.substring(i+1,i+2))
+                    && !string.substring(i,i+1).equals(string.substring(i+1,i+2))) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(string.substring(i+1,i+2));
+                sb.append(string.substring(i,i+1));
+                sb.append(string.substring(i+1,i+2));
+                matches.add(sb.toString());
+            }
+        }
+        return matches;
+    }
+    
+    private static boolean findBAB(ArrayList<String> matches, String string) {
+        for(String match : matches) {
+            if(string.contains(match)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private static String compileString(String pattern, String eachInput) {
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(eachInput);
         StringBuilder sb = new StringBuilder();
         while(m.find()) {
             sb.append(m.group());
+            sb.append(' ');
         }
         return sb.toString();
     }

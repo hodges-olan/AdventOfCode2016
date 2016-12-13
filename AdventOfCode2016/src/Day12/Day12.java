@@ -34,7 +34,8 @@ public class Day12 {
         System.out.println("Part One: " + partOne(registers, input));
         
         // Part2
-        System.out.println("Part Two: " + partTwo());
+        registers = partTwo(registers);
+        System.out.println("Part Two: " + partOne(registers, input));
     }
     
     private static ArrayList<String> readFile(String filePath) {
@@ -72,11 +73,11 @@ public class Day12 {
                 case "jnz":
                     if(m.find()) {
                         if(Integer.parseInt(splitInstructions[1]) != 0) {
-                            i = ((i + Integer.parseInt(splitInstructions[1])) < 0) ? 0 : i + Integer.parseInt(splitInstructions[1]);
+                            i = ((i + Integer.parseInt(splitInstructions[1]) - 1) < 0) ? -1 : i + Integer.parseInt(splitInstructions[2]) - 1;
                         }
                     } else {
                         if(Integer.parseInt(registers.get(splitInstructions[1]).toString()) != 0) {
-                            i = ((i+Integer.parseInt(registers.get(splitInstructions[1]).toString())) < 0) ? 0 : i + Integer.parseInt(registers.get(splitInstructions[1]).toString());
+                            i = ((i + Integer.parseInt(registers.get(splitInstructions[1]).toString()) - 1) < 0) ? -1 : i + Integer.parseInt(splitInstructions[2]) - 1;
                         }
                     }
                     break;
@@ -85,8 +86,12 @@ public class Day12 {
         return registers.get("a").toString();
     }
 
-    private static String partTwo() {
-        return "Not yet";
+    private static Map partTwo(Map registers) {
+        registers.put("a", 0);
+        registers.put("b", 0);
+        registers.put("c", 1);
+        registers.put("d", 0);
+        return registers;
     }
 
     private static Map initializeRegisters(Map registers) {

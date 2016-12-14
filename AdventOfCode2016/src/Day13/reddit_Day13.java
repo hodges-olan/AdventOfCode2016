@@ -42,6 +42,12 @@
 //How many locations (distinct x,y coordinates, including your starting location) can you reach in at most 50 steps?
 //
 //Your puzzle answer was 127.
+//
+//Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//Your puzzle input was 1364.
 
 //  Notes to review later
 //  http://imgur.com/a/N7ZPO

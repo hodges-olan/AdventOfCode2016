@@ -35,6 +35,8 @@
 //What is the decompressed length of the file using this improved format?
 //
 //Your puzzle answer was 11125026826.
+//
+//Both parts of this puzzle are complete! They provide two gold stars: **
 
 package Day9;
 

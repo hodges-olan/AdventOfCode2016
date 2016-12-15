@@ -35,7 +35,7 @@ public class Day13 {
         int total = (x * x) + (3 * x) + (2 * x * y) + y + (y * y) + input;
         String binary = Integer.toBinaryString(total);
         int totalOnes = StringUtils.countMatches(binary, '1');
-        boolean valid = (totalOnes%2 == 1) ? true : false;
+        boolean valid = (totalOnes%2 == 1);
         return valid;
     }
     

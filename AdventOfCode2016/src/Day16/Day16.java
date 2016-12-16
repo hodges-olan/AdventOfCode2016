@@ -39,10 +39,6 @@ public class Day16 {
         }
         return checksum;
     }
-
-    private static String partTwo() {
-        return "Not yet";
-    }
     
     private static String dragonCurve(String partA) {
         String partB = StringUtils.reverse(partA).replaceAll("0", "x").replaceAll("1", "0").replaceAll("x", "1");

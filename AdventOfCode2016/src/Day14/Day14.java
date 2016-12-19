@@ -59,7 +59,6 @@ package Day14;
 import com.google.common.base.Charsets;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,30 +72,22 @@ import java.util.regex.Pattern;
  */
 public class Day14 {
 
-    static Pattern p = Pattern.compile("([a-zA-Z\\d])\\1\\1");
-
-    static String has3(String s) {
-        Matcher m = p.matcher(s);
-        if (m.find()) return m.group(1);
-        return "";
-    }
-
-    static boolean has5(String s, String t) {
-        String five = "";
-        for (int i = 0; i < 5; i++) {
-            five += s;
-        }
-        return t.contains(five);
-    }
-
     public static void main(String[] args) throws Exception {
 
-        HashFunction md5 = Hashing.md5();
-        MessageDigest md = MessageDigest.getInstance("MD5");
-
-        boolean part2 = true;
+        boolean part2 = false;
         String salt = "ihaygndm";
 
+        // Part 1
+        System.out.println("Part One: " + findAnswer(salt, part2));
+        
+        // Part2
+        part2 = true;
+        System.out.println("Part Two: " + findAnswer(salt, part2));
+        
+    }
+    
+    private static int findAnswer(String salt, boolean part2) {
+        HashFunction md5 = Hashing.md5();
         List<Integer> keys = new ArrayList<>();
         Map<Integer, String> map = new HashMap<>();
 
@@ -135,7 +126,6 @@ public class Day14 {
                         map.putIfAbsent(i, hex2);
                     }
                     if (has5(c, hex2)) {
-                        System.out.println("index: " + index + " : i: " + i + " : c: " + c);
                         keys.add(index);
                         break;
                     }
@@ -144,6 +134,21 @@ public class Day14 {
             }
             index++;
         }
-        System.out.println(keys.get(keys.size() - 1));
+        return keys.get(keys.size() - 1);
+    }
+    
+    private static String has3(String s) {
+        Pattern p = Pattern.compile("([a-zA-Z\\d])\\1\\1");
+        Matcher m = p.matcher(s);
+        if (m.find()) return m.group(1);
+        return "";
+    }
+
+    private static boolean has5(String s, String t) {
+        String five = "";
+        for (int i = 0; i < 5; i++) {
+            five += s;
+        }
+        return t.contains(five);
     }
 }

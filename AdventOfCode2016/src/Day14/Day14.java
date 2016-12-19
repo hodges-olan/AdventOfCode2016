@@ -56,6 +56,9 @@
 
 package Day14;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,16 +89,9 @@ public class Day14 {
         return t.contains(five);
     }
 
-    public static String bytesToHex(byte[] in) {
-        final StringBuilder builder = new StringBuilder();
-        for(byte b : in) {
-            builder.append(String.format("%02x", b));
-        }
-        return builder.toString();
-    }
-
     public static void main(String[] args) throws Exception {
 
+        HashFunction md5 = Hashing.md5();
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         boolean part2 = true;
@@ -112,13 +108,10 @@ public class Day14 {
             if (map.containsKey(index)) {
                 hex = map.get(index);
             } else {
-                md.update(temp.getBytes());
-                byte[] hash = md.digest();
-                hex = bytesToHex(hash);
+                hex = md5.hashString(temp, Charsets.US_ASCII).toString();
                 if (part2) {
                     for (int i = 0; i < 2016; i++) {
-                        md.update(hex.getBytes());
-                        hex = bytesToHex(md.digest());
+                        hex = md5.hashString(hex, Charsets.US_ASCII).toString();
                     }
                 }
                 map.putIfAbsent(index, hex);
@@ -133,13 +126,10 @@ public class Day14 {
                         hex2 = map.get(i);
                     } else {
                         temp = salt + i;
-                        md.update(temp.getBytes());
-                        byte[] hash = md.digest();
-                        hex2 = bytesToHex(hash);
+                        hex2 = md5.hashString(temp, Charsets.US_ASCII).toString();
                         if (part2) {
                             for (int j = 0; j < 2016; j++) {
-                                md.update(hex2.getBytes());
-                                hex2 = bytesToHex(md.digest());
+                                hex2 = md5.hashString(hex2, Charsets.US_ASCII).toString();
                             }
                         }
                         map.putIfAbsent(i, hex2);

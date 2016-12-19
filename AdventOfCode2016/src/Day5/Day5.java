@@ -50,13 +50,20 @@ import java.util.regex.Pattern;
  */
 public class Day5 {
     public static void main(String[] args) {
-        partOne();
-        partTwo();
+        
+        String input = "wtnhxymk";
+        
+        // Part 1
+        System.out.println("Part One: " + partOne(input));
+        
+        // Part2
+        System.out.println("Part Two: " + partTwo(input));
+
     }
     
-    private static void partOne() {
+    private static String partOne(String input) {
         HashFunction md5 = Hashing.md5();
-        String puzzleInput = "wtnhxymk", decimalString, hashCombo, md5sum;
+        String decimalString, hashCombo, md5sum;
         StringBuilder psb = new StringBuilder();
         int decimal = 0;
         int valid = 0;
@@ -64,22 +71,21 @@ public class Day5 {
 
         do {
             decimalString = String.valueOf(decimal);
-            hashCombo = puzzleInput + decimalString;
+            hashCombo = input + decimalString;
             md5sum = md5.hashString(hashCombo, Charsets.US_ASCII).toString();
             if (md5sum.substring(0,5).equals("00000")) {
                 valid++;
                 pChar = md5sum.substring(5,6).charAt(0);
                 psb.append(pChar);
             }
-            decimal = ++decimal;
+            decimal++;
         } while (valid < 8);
-        String password = psb.toString();
-        System.out.println("Part 1 Password: " + password);
+        return psb.toString();
     }
     
-    private static void partTwo() {
+    private static String partTwo(String input) {
         HashFunction md5 = Hashing.md5();
-        String puzzleInput = "wtnhxymk", decimalString, hashCombo, md5sum;
+        String decimalString, hashCombo, md5sum;
         int decimal = 0;
         int valid = 0;
         int pLocation;
@@ -91,7 +97,7 @@ public class Day5 {
 
         do {
             decimalString = String.valueOf(decimal);
-            hashCombo = puzzleInput + decimalString;
+            hashCombo = input + decimalString;
             md5sum = md5.hashString(hashCombo, Charsets.US_ASCII).toString();
             if (md5sum.substring(0,5).equals("00000")) {
                 pLocationChar = md5sum.substring(5,6);
@@ -105,12 +111,9 @@ public class Day5 {
                     }
                 }
             }
-            decimal = ++decimal;
+            decimal++;
         } while (valid < 8);
-        System.out.print("Part 2 Password: ");
-        for(char pass : password) {
-            System.out.print(pass);
-        }
-        System.out.println("");
+        
+        return String.valueOf(password);
     }
 }

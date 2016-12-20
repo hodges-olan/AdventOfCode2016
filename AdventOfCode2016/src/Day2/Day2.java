@@ -62,38 +62,45 @@ import java.util.logging.Logger;
  * @author hodges-olan
  */
 public class Day2 {
-    private static final String FILEPATH = "day2.txt";
-    private static final ArrayList<String> INSTRUCTIONS = new ArrayList<>();
     private static final int[][] KEYPAD = new int[3][3];
     private static final char[][] REALKEYPAD = new char[5][5];
-    private static final ArrayList<Integer> CODE = new ArrayList<>();
-    private static final ArrayList<Character> REALCODE = new ArrayList<>();
     private static int x;
     private static int y;
     
     public static void main(String[] args) {
-        readFile();
+        String filePath = "day2.txt";
+        ArrayList<String> instructions = readFile(filePath);
         
         // Part 1
         initializeKeypad();
         x = 1;
         y = 1;
-        INSTRUCTIONS.stream().forEach((instruction) -> { CODE.add(moveKey(instruction)); });
-        System.out.println("Part 1");
-        CODE.stream().forEach((key) -> { System.out.println(key); });
+        ArrayList<Integer> code = new ArrayList<>();
+        instructions.stream().forEach((instruction) -> { code.add(moveKey(instruction)); });
+        System.out.print("Part 1: ");
+        code.stream().forEach((key) -> { System.out.print(key); });
+        System.out.print("\n");
         
         // Part 2
         initializeRealKeypad();
         x = 0;
         y = 2;
-        INSTRUCTIONS.stream().forEach((instruction) -> { REALCODE.add(moveRealKey(instruction)); });
-        System.out.println("Part 2");
-        REALCODE.stream().forEach((key) -> {System.out.println(key); });
+        ArrayList<Character> realCode = new ArrayList<>();
+        instructions.stream().forEach((instruction) -> { realCode.add(moveRealKey(instruction)); });
+        System.out.print("Part 2: ");
+        realCode.stream().forEach((key) -> {System.out.print(key); });
+        System.out.print("\n");
     }
     
-    private static void readFile() {
+    private static ArrayList readFile(String filePath) {
         String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) { while((read = in.readLine()) != null) INSTRUCTIONS.add(read.trim()); } catch (IOException ex) { Logger.getLogger(Day2.class.getName()).log(Level.SEVERE, null, ex); }
+        ArrayList<String> instructions = new ArrayList<>();
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
+            while((read = in.readLine()) != null) instructions.add(read.trim());
+        } catch (IOException ex) {
+            Logger.getLogger(Day2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return instructions;
     }
     
     private static void initializeKeypad() {
@@ -135,18 +142,10 @@ public class Day2 {
     private static Integer moveKey(String instruction) {
         for(int i = 0; i < instruction.length(); i++) {
             switch(instruction.charAt(i)) {
-                case 'U':
-                    if(y != 0) { y--; }
-                    break;
-                case 'R':
-                    if(x != 2) { x++; }
-                    break;
-                case 'D':
-                    if(y != 2) { y++; }
-                    break;
-                case 'L':
-                    if(x != 0) { x--; }
-                    break;
+                case 'U': if(y != 0) y--; break;
+                case 'R': if(x != 2) x++; break;
+                case 'D': if(y != 2) y++; break;
+                case 'L': if(x != 0) x--; break;
             }
         }
         return KEYPAD[y][x];
@@ -155,18 +154,10 @@ public class Day2 {
     private static Character moveRealKey(String instruction) {
         for(int i = 0; i < instruction.length(); i++) {
             switch(instruction.charAt(i)) {
-                case 'U':
-                    if(y != 0 && REALKEYPAD[y - 1][x] != 'X') { y--; }
-                    break;
-                case 'R':
-                    if(x != 4 && REALKEYPAD[y][x + 1] != 'X') { x++; }
-                    break;
-                case 'D':
-                    if(y != 4 && REALKEYPAD[y + 1][x] != 'X') { y++; }
-                    break;
-                case 'L':
-                    if(x != 0 && REALKEYPAD[y][x - 1] != 'X') { x--; }
-                    break;
+                case 'U': if(y != 0 && REALKEYPAD[y - 1][x] != 'X') y--; break;
+                case 'R': if(x != 4 && REALKEYPAD[y][x + 1] != 'X') x++; break;
+                case 'D': if(y != 4 && REALKEYPAD[y + 1][x] != 'X') y++; break;
+                case 'L': if(x != 0 && REALKEYPAD[y][x - 1] != 'X') x--; break;
             }
         }
         return REALKEYPAD[y][x];

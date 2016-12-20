@@ -89,12 +89,8 @@ public class Day1 {
             int distance = 0;
             while(m.find()) distance = Integer.parseInt(m.group());
             switch(turn) {
-                case 'R':
-                    if(direction == 3) direction = 0; else direction++;
-                    break;
-                case 'L':
-                    if(direction == 0) direction = 3; else direction--;
-                    break;
+                case 'R': if(direction == 3) direction = 0; else direction++; break;
+                case 'L': if(direction == 0) direction = 3; else direction--; break;
             }
             for (int i = 0; i < distance; i++) {
                 switch(direction) {

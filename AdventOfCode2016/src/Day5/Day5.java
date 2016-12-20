@@ -63,20 +63,16 @@ public class Day5 {
     
     private static String partOne(String input) {
         HashFunction md5 = Hashing.md5();
-        String decimalString, hashCombo, md5sum;
+        String md5sum;
         StringBuilder psb = new StringBuilder();
         int decimal = 0;
         int valid = 0;
-        char pChar;
 
         do {
-            decimalString = String.valueOf(decimal);
-            hashCombo = input + decimalString;
-            md5sum = md5.hashString(hashCombo, Charsets.US_ASCII).toString();
+            md5sum = md5.hashString(input + String.valueOf(decimal), Charsets.US_ASCII).toString();
             if (md5sum.substring(0,5).equals("00000")) {
                 valid++;
-                pChar = md5sum.substring(5,6).charAt(0);
-                psb.append(pChar);
+                psb.append(md5sum.substring(5,6).charAt(0));
             }
             decimal++;
         } while (valid < 8);
@@ -85,7 +81,7 @@ public class Day5 {
     
     private static String partTwo(String input) {
         HashFunction md5 = Hashing.md5();
-        String decimalString, hashCombo, md5sum;
+        String md5sum;
         int decimal = 0;
         int valid = 0;
         int pLocation;
@@ -96,9 +92,7 @@ public class Day5 {
         Matcher mLocationMatcher;
 
         do {
-            decimalString = String.valueOf(decimal);
-            hashCombo = input + decimalString;
-            md5sum = md5.hashString(hashCombo, Charsets.US_ASCII).toString();
+            md5sum = md5.hashString(input + String.valueOf(decimal), Charsets.US_ASCII).toString();
             if (md5sum.substring(0,5).equals("00000")) {
                 pLocationChar = md5sum.substring(5,6);
                 mLocationMatcher = pLocationPattern.matcher(pLocationChar);

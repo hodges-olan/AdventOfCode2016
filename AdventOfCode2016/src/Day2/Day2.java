@@ -62,34 +62,18 @@ import java.util.logging.Logger;
  * @author hodges-olan
  */
 public class Day2 {
-    private static final int[][] KEYPAD = new int[3][3];
-    private static final char[][] REALKEYPAD = new char[5][5];
-    private static int x;
-    private static int y;
+    private static int x = 0;
+    private static int y = 0;
     
     public static void main(String[] args) {
         String filePath = "day2.txt";
         ArrayList<String> instructions = readFile(filePath);
         
         // Part 1
-        initializeKeypad();
-        x = 1;
-        y = 1;
-        ArrayList<Integer> code = new ArrayList<>();
-        instructions.stream().forEach((instruction) -> { code.add(moveKey(instruction)); });
-        System.out.print("Part 1: ");
-        code.stream().forEach((key) -> { System.out.print(key); });
-        System.out.print("\n");
+        System.out.println("Part 1: " + partOne(instructions));
         
         // Part 2
-        initializeRealKeypad();
-        x = 0;
-        y = 2;
-        ArrayList<Character> realCode = new ArrayList<>();
-        instructions.stream().forEach((instruction) -> { realCode.add(moveRealKey(instruction)); });
-        System.out.print("Part 2: ");
-        realCode.stream().forEach((key) -> {System.out.print(key); });
-        System.out.print("\n");
+        System.out.println("Part 2: " + partTwo(instructions));
     }
     
     private static ArrayList readFile(String filePath) {
@@ -103,43 +87,47 @@ public class Day2 {
         return instructions;
     }
     
-    private static void initializeKeypad() {
-        for(int localY=0; localY < 3; localY++) {
-            for(int localX=0; localX < 3; localX++) {
-                KEYPAD[localY][localX] = localX+(localY*3)+1;
+    private static int[][] initializeKeypad() {
+        int[][] keypad = new int[3][3];
+        for(int i=0; i < 3; i++) {
+            for(int j=0; j < 3; j++) {
+                keypad[i][j] = j+(i*3)+1;
             }
         }
+        return keypad;
     }
     
-    private static void initializeRealKeypad() {
-        REALKEYPAD[0][0] = 'X';
-        REALKEYPAD[0][1] = 'X';
-        REALKEYPAD[0][2] = '1';
-        REALKEYPAD[0][3] = 'X';
-        REALKEYPAD[0][4] = 'X';
-        REALKEYPAD[1][0] = 'X';
-        REALKEYPAD[1][1] = '2';
-        REALKEYPAD[1][2] = '3';
-        REALKEYPAD[1][3] = '4';
-        REALKEYPAD[1][4] = 'X';
-        REALKEYPAD[2][0] = '5';
-        REALKEYPAD[2][1] = '6';
-        REALKEYPAD[2][2] = '7';
-        REALKEYPAD[2][3] = '8';
-        REALKEYPAD[2][4] = '9';
-        REALKEYPAD[3][0] = 'X';
-        REALKEYPAD[3][1] = 'A';
-        REALKEYPAD[3][2] = 'B';
-        REALKEYPAD[3][3] = 'C';
-        REALKEYPAD[3][4] = 'X';
-        REALKEYPAD[4][0] = 'X';
-        REALKEYPAD[4][1] = 'X';
-        REALKEYPAD[4][2] = 'D';
-        REALKEYPAD[4][3] = 'X';
-        REALKEYPAD[4][4] = 'X';
+    private static char[][] initializeRealKeypad() {
+        char[][] realKeypad = new char[5][5];
+        realKeypad[0][0] = 'X';
+        realKeypad[0][1] = 'X';
+        realKeypad[0][2] = '1';
+        realKeypad[0][3] = 'X';
+        realKeypad[0][4] = 'X';
+        realKeypad[1][0] = 'X';
+        realKeypad[1][1] = '2';
+        realKeypad[1][2] = '3';
+        realKeypad[1][3] = '4';
+        realKeypad[1][4] = 'X';
+        realKeypad[2][0] = '5';
+        realKeypad[2][1] = '6';
+        realKeypad[2][2] = '7';
+        realKeypad[2][3] = '8';
+        realKeypad[2][4] = '9';
+        realKeypad[3][0] = 'X';
+        realKeypad[3][1] = 'A';
+        realKeypad[3][2] = 'B';
+        realKeypad[3][3] = 'C';
+        realKeypad[3][4] = 'X';
+        realKeypad[4][0] = 'X';
+        realKeypad[4][1] = 'X';
+        realKeypad[4][2] = 'D';
+        realKeypad[4][3] = 'X';
+        realKeypad[4][4] = 'X';
+        return realKeypad;
     }
     
-    private static Integer moveKey(String instruction) {
+    private static String moveKey(String instruction, int[][] keypad) {
         for(int i = 0; i < instruction.length(); i++) {
             switch(instruction.charAt(i)) {
                 case 'U': if(y != 0) y--; break;
@@ -148,18 +136,36 @@ public class Day2 {
                 case 'L': if(x != 0) x--; break;
             }
         }
-        return KEYPAD[y][x];
+        return Integer.toString(keypad[y][x]);
     }
 
-    private static Character moveRealKey(String instruction) {
+    private static Character moveRealKey(String instruction, char[][] realKeypad) {
         for(int i = 0; i < instruction.length(); i++) {
             switch(instruction.charAt(i)) {
-                case 'U': if(y != 0 && REALKEYPAD[y - 1][x] != 'X') y--; break;
-                case 'R': if(x != 4 && REALKEYPAD[y][x + 1] != 'X') x++; break;
-                case 'D': if(y != 4 && REALKEYPAD[y + 1][x] != 'X') y++; break;
-                case 'L': if(x != 0 && REALKEYPAD[y][x - 1] != 'X') x--; break;
+                case 'U': if(y != 0 && realKeypad[y - 1][x] != 'X') y--; break;
+                case 'R': if(x != 4 && realKeypad[y][x + 1] != 'X') x++; break;
+                case 'D': if(y != 4 && realKeypad[y + 1][x] != 'X') y++; break;
+                case 'L': if(x != 0 && realKeypad[y][x - 1] != 'X') x--; break;
             }
         }
-        return REALKEYPAD[y][x];
+        return realKeypad[y][x];
+    }
+
+    private static String partOne(ArrayList<String> instructions) {
+        int[][] keypad = initializeKeypad();
+        x = 1;
+        y = 1;
+        StringBuilder code = new StringBuilder();
+        instructions.stream().forEach((instruction) -> { code.append(moveKey(instruction, keypad)); });
+        return code.toString();
+    }
+
+    private static String partTwo(ArrayList<String> instructions) {
+        char[][] realKeypad = initializeRealKeypad();
+        x = 0;
+        y = 2;
+        StringBuilder realCode = new StringBuilder();
+        instructions.stream().forEach((instruction) -> { realCode.append(moveRealKey(instruction, realKeypad)); });
+        return realCode.toString();
     }
 }

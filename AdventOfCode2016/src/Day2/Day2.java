@@ -72,64 +72,40 @@ public class Day2 {
         System.out.println("Part 2: " + partTwo(instructions));
     }
     
-    private static int[][] initializeKeypad() {
-        int[][] keypad = new int[3][3];
-        for(int i=0; i < 3; i++) {
-            for(int j=0; j < 3; j++) {
-                keypad[i][j] = j+(i*3)+1;
-            }
-        }
-        return keypad;
+    private static String partOne(ArrayList<String> instructions) {
+        char[][] keypad = {{'1','2','3'}
+                          ,{'4','5','6'}
+                          ,{'7','8','9'}};
+        x = 1;
+        y = 1;
+        StringBuilder code = new StringBuilder();
+        instructions.stream().forEach((instruction) -> { code.append(moveKey(instruction, keypad, 2)); });
+        return code.toString();
     }
-    
-    private static char[][] initializeRealKeypad() {
+
+    private static String partTwo(ArrayList<String> instructions) {
         char[][] realKeypad = {{'X','X','1','X','X'}
                              , {'X','2','3','4','X'}
                              , {'5','6','7','8','9'}
                              , {'X','A','B','C','X'}
                              , {'X','X','D','X','X'}};
-        return realKeypad;
-    }
-    
-    private static String moveKey(String instruction, int[][] keypad) {
-        for(int i = 0; i < instruction.length(); i++) {
-            switch(instruction.charAt(i)) {
-                case 'U': if(y != 0) y--; break;
-                case 'R': if(x != 2) x++; break;
-                case 'D': if(y != 2) y++; break;
-                case 'L': if(x != 0) x--; break;
-            }
-        }
-        return Integer.toString(keypad[y][x]);
-    }
-
-    private static Character moveRealKey(String instruction, char[][] realKeypad) {
-        for(int i = 0; i < instruction.length(); i++) {
-            switch(instruction.charAt(i)) {
-                case 'U': if(y != 0 && realKeypad[y - 1][x] != 'X') y--; break;
-                case 'R': if(x != 4 && realKeypad[y][x + 1] != 'X') x++; break;
-                case 'D': if(y != 4 && realKeypad[y + 1][x] != 'X') y++; break;
-                case 'L': if(x != 0 && realKeypad[y][x - 1] != 'X') x--; break;
-            }
-        }
-        return realKeypad[y][x];
-    }
-
-    private static String partOne(ArrayList<String> instructions) {
-        int[][] keypad = initializeKeypad();
-        x = 1;
-        y = 1;
-        StringBuilder code = new StringBuilder();
-        instructions.stream().forEach((instruction) -> { code.append(moveKey(instruction, keypad)); });
-        return code.toString();
-    }
-
-    private static String partTwo(ArrayList<String> instructions) {
-        char[][] realKeypad = initializeRealKeypad();
         x = 0;
         y = 2;
         StringBuilder realCode = new StringBuilder();
-        instructions.stream().forEach((instruction) -> { realCode.append(moveRealKey(instruction, realKeypad)); });
+        instructions.stream().forEach((instruction) -> { realCode.append(moveKey(instruction, realKeypad, 4)); });
         return realCode.toString();
     }
+    
+    private static char moveKey(String instruction, char[][] keypad, int limit) {
+        for(int i = 0; i < instruction.length(); i++) {
+            switch(instruction.charAt(i)) {
+                case 'U': if(y != 0 && keypad[y - 1][x] != 'X') y--; break;
+                case 'R': if(x != limit && keypad[y][x + 1] != 'X') x++; break;
+                case 'D': if(y != limit && keypad[y + 1][x] != 'X') y++; break;
+                case 'L': if(x != 0 && keypad[y][x - 1] != 'X') x--; break;
+            }
+        }
+        return keypad[y][x];
+    }
+
 }

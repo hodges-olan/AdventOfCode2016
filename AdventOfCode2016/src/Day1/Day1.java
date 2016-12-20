@@ -49,85 +49,68 @@ import java.util.regex.Pattern;
  * @author hodges-olan
  */
 public class Day1 {
-    private static final String FILEPATH = "day1.txt";
-    private static final int[][] BLOCKS = new int[10000][10000];
-    private static boolean hqFound = false;
     
     public static void main(String[] args) {
+        String filePath = "day1.txt";
+        ArrayList<String> directions = readFile(filePath);
+        
+        // Part 1
+        System.out.println("Part 1 Answer: " + partOne(directions, false));
+        
+        // Part 2
+        System.out.println("Part 2 Answer: " + partOne(directions, true));
+    }
+    
+    private static ArrayList readFile(String filePath) {
         String input;
         String[] splitDirections;
         ArrayList<String> directions = new ArrayList<>();
-        int direction = 0;
-        int x = 0;
-        int y = 0;
-        int hqX = 0;
-        int hqY = 0;
-        int totalDistance;
-        int hqDistance;
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m;
-
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((input = in.readLine()) != null) {
                 splitDirections = input.split(", ");
                 directions.addAll(Arrays.asList(splitDirections));
             }
-        } catch (IOException ex) { Logger.getLogger(Day1.class.getName()).log(Level.SEVERE, null, ex); }
+        } catch (IOException ex) {
+            Logger.getLogger(Day1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return directions;
+    }
+
+    private static String partOne(ArrayList<String> directions, boolean partTwo) {
+        int[][] blocks = new int[10000][10000];
+        int direction = 0;
+        int x = 0;
+        int y = 0;
+        Pattern p = Pattern.compile("\\d+");
         
         for (String splitDirection: directions) {
             char turn = splitDirection.charAt(0);
-            m = p.matcher(splitDirection);
+            Matcher m = p.matcher(splitDirection);
             int distance = 0;
-            while(m.find()) {
-                distance = Integer.parseInt(m.group());
-            }
+            while(m.find()) distance = Integer.parseInt(m.group());
             switch(turn) {
                 case 'R':
-                    if(direction == 3) {
-                        direction = 0;
-                    } else {
-                        direction++;
-                    }
+                    if(direction == 3) direction = 0; else direction++;
                     break;
                 case 'L':
-                    if(direction == 0) {
-                        direction = 3;
-                    } else {
-                        direction--;
-                    }
+                    if(direction == 0) direction = 3; else direction--;
                     break;
             }
             for (int i = 0; i < distance; i++) {
                 switch(direction) {
-                    case 0:
-                        y++;
-                        break;
-                    case 1:
-                        x++;
-                        break;
-                    case 2:
-                        y--;
-                        break;
-                    case 3:
-                        x--;
-                        break;
+                    case 0: y++; break;
+                    case 1: x++; break;
+                    case 2: y--; break;
+                    case 3: x--; break;
                 }
-                BLOCKS[x+5000][y+5000]++;
-                if (BLOCKS[x+5000][y+5000] > 1 && !hqFound) {
-                    hqFound = true;
-                    hqX = x;
-                    hqY = y;
-                }
+                blocks[x+5000][y+5000]++;
+                if (partTwo && blocks[x+5000][y+5000] > 1) return getResult(x, y);
             }
         }
-        
-        hqDistance = getResult(hqX, hqY);
-        totalDistance = getResult(x, y);
-        System.out.println("Part 1 Answer: " + totalDistance);
-        System.out.println("Part 2 Answer: " + hqDistance);
+        return getResult(x, y);
     }
     
-    private static int getResult(int x, int y) {
-        return Math.abs(x) + Math.abs(y);
+    private static String getResult(int x, int y) {
+        return Integer.toString(Math.abs(x) + Math.abs(y));
     }
 }

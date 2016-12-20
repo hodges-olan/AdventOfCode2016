@@ -38,12 +38,8 @@
 
 package Day15;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -53,11 +49,8 @@ public class Day15 {
     
     public static void main(String[] args) {
         String filePath = "day15.txt";
-        ArrayList<String> input;
-        ArrayList<int[]> discs;
-        
-        input = readFile(filePath);
-        discs = readInput(input);
+        ArrayList<String> input = FileIO.readFileToArrayListString(filePath);
+        ArrayList<int[]> discs = readInput(input);
         
         // Part 1
         System.out.println("Part One: " + partOne(discs));
@@ -79,19 +72,6 @@ public class Day15 {
             }
         }
         return Integer.toString(count);
-    }
-    
-    private static ArrayList<String> readFile(String filePath) {
-        String read;
-        ArrayList<String> input = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day15.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
 
     private static ArrayList readInput(ArrayList<String> input) {

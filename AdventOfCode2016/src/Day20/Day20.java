@@ -25,14 +25,10 @@
 
 package Day20;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -42,7 +38,7 @@ public class Day20 {
     
     public static void main(String[] args) {
         String filePath = "day20.txt";
-        ArrayList<String> input = readFile(filePath);
+        ArrayList<String> input = FileIO.readFileToArrayListString(filePath);
         TreeMap<Long, Long> ipAddresses = acquireAddresses(input);
         
         // Part 1
@@ -86,19 +82,6 @@ public class Day20 {
         }
 
         return Long.toString(count);
-    }
-    
-    private static ArrayList<String> readFile(String filePath) {
-        String read;
-        ArrayList<String> input = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day20.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
 
     private static TreeMap<Long, Long> acquireAddresses(ArrayList<String> input) {

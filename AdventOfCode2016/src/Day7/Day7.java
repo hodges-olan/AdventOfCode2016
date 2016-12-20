@@ -32,12 +32,8 @@
 
 package Day7;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,26 +45,13 @@ public class Day7 {
 
     public static void main(String[] args) {
         String filePath = "day7.txt";
-        ArrayList<String> input = readFile(filePath);
+        ArrayList<String> input = FileIO.readFileToArrayListString(filePath);
         
         // Part 1
         System.out.println("Part One: " + partOne(input));
         
         // Part2
         System.out.println("Part Two: " + partTwo(input));
-    }
-    
-    private static ArrayList<String> readFile(String filePath) {
-        ArrayList<String> input = new ArrayList<>();
-        String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day7.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
     
     private static int partOne(ArrayList<String> input) {

@@ -34,13 +34,8 @@
 package Day1;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,28 +47,13 @@ public class Day1 {
     
     public static void main(String[] args) {
         String filePath = "day1.txt";
-        ArrayList<String> directions = readFile(filePath);
+        ArrayList<String> directions = FileIO.readFileToArrayListStringSplit(filePath, ", ");
         
         // Part 1
         System.out.println("Part 1 Answer: " + partOne(directions, false));
         
         // Part 2
         System.out.println("Part 2 Answer: " + partOne(directions, true));
-    }
-    
-    private static ArrayList readFile(String filePath) {
-        String input;
-        String[] splitDirections;
-        ArrayList<String> directions = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((input = in.readLine()) != null) {
-                splitDirections = input.split(", ");
-                directions.addAll(Arrays.asList(splitDirections));
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return directions;
     }
 
     private static String partOne(ArrayList<String> directions, boolean partTwo) {

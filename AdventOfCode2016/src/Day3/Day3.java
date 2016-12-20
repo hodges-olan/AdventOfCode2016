@@ -30,12 +30,8 @@
 
 package Day3;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -45,32 +41,13 @@ public class Day3 {
     
     public static void main(String[] args) {
         String filePath = "day3.txt";
-        ArrayList<Integer[]> triangles = readFile(filePath);
+        ArrayList<Integer[]> triangles = FileIO.readFileToArrayListIntegerArray(filePath);
         
         // Part 1
         System.out.println("Part 1: " + partOne(triangles));
         
         // Part 2
         System.out.println("Part 2: " + partTwo(triangles));
-    }
-    
-    private static ArrayList<Integer[]> readFile(String filePath) {
-        String read;
-        String[] readString;
-        ArrayList<Integer[]> triangles = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                readString = read.trim().split("\\s+");
-                Integer[]nums = new Integer[readString.length];
-                for(int i = 0; i < readString.length; i++) {
-                    nums[i] = Integer.parseInt(readString[i]);
-                }
-                triangles.add(nums);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day3.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return triangles;
     }
 
     private static String partOne(ArrayList<Integer[]> triangles) {

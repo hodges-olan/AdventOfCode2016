@@ -49,12 +49,8 @@
 
 package Day8;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -67,7 +63,7 @@ public class Day8 {
     
     public static void main(String[] args) {
         String filePath = "day8.txt";
-        ArrayList<String[]> input = readFile(filePath);
+        ArrayList<String[]> input = FileIO.readFileToArrayListStringArray(filePath, " ");
         
         // Part 1
         System.out.println("Part One: ");
@@ -77,19 +73,6 @@ public class Day8 {
         System.out.println("Part Two: ");
         partTwo();
         
-    }
-    
-    private static ArrayList<String[]> readFile(String filePath) {
-        ArrayList<String[]> input = new ArrayList<>();
-        String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim().split(" "));
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day8.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
     
     private static void partOne(ArrayList<String[]> input) {

@@ -42,12 +42,8 @@
 
 package Day6;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -57,26 +53,13 @@ public class Day6 {
     
     public static void main(String[] args) {
         String filePath = "day6.txt";
-        ArrayList<char[]> input = readFile(filePath);
+        ArrayList<char[]> input = FileIO.readFileToArrayListCharArray(filePath);
         
         // Part 1
         System.out.println("Part One: " + findMessage(input, false));
         
         // Part2
         System.out.println("Part Two: " + findMessage(input, true));
-    }
-    
-    private static ArrayList<char[]> readFile(String filePath) {
-        ArrayList<char[]> input = new ArrayList<>();
-        String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim().toCharArray());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day6.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
 
     private static String findMessage(ArrayList<char[]> input, boolean partTwo) {

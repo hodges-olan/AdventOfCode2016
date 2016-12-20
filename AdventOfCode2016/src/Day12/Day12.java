@@ -42,14 +42,10 @@
 
 package Day12;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,11 +57,8 @@ public class Day12 {
     
     public static void main(String[] args) {
         String filePath = "day12.txt";
-        ArrayList<String> input;
-        Map registers = new HashMap();
-        
-        input = readFile(filePath);
-        registers = initializeRegisters(registers);
+        ArrayList<String> input = FileIO.readFileToArrayListString(filePath);
+        Map registers = initializeRegisters();
         
         // Part 1
         System.out.println("Part One: " + partOne(registers, input));
@@ -73,19 +66,6 @@ public class Day12 {
         // Part2
         registers = partTwo(registers);
         System.out.println("Part Two: " + partOne(registers, input));
-    }
-    
-    private static ArrayList<String> readFile(String filePath) {
-        String read;
-        ArrayList<String> input = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day12.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
 
     private static String partOne(Map registers, ArrayList<String> input) {
@@ -131,7 +111,8 @@ public class Day12 {
         return registers;
     }
 
-    private static Map initializeRegisters(Map registers) {
+    private static Map initializeRegisters() {
+        Map registers = new HashMap();
         registers.put("a", 0);
         registers.put("b", 0);
         registers.put("c", 0);

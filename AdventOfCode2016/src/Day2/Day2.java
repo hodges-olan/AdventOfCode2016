@@ -50,12 +50,8 @@
 
 package Day2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -67,24 +63,13 @@ public class Day2 {
     
     public static void main(String[] args) {
         String filePath = "day2.txt";
-        ArrayList<String> instructions = readFile(filePath);
+        ArrayList<String> instructions = FileIO.readFileToArrayListString(filePath);
         
         // Part 1
         System.out.println("Part 1: " + partOne(instructions));
         
         // Part 2
         System.out.println("Part 2: " + partTwo(instructions));
-    }
-    
-    private static ArrayList readFile(String filePath) {
-        String read;
-        ArrayList<String> instructions = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) instructions.add(read.trim());
-        } catch (IOException ex) {
-            Logger.getLogger(Day2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return instructions;
     }
     
     private static int[][] initializeKeypad() {

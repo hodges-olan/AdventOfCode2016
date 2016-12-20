@@ -32,12 +32,8 @@
 
 package Day4;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import FileIO.FileIO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,7 +50,7 @@ public class Day4 {
     
     public static void main(String[] args) {
         String filePath = "day4.txt";
-        ArrayList<String> input = readFile(filePath);
+        ArrayList<String> input = FileIO.readFileToArrayListString(filePath);
         splitInput(input);
         
         // Part 1
@@ -62,19 +58,6 @@ public class Day4 {
         
         // Part 2
         System.out.println("Part 2: " + partTwo());
-    }
-    
-    private static ArrayList<String> readFile(String filePath) {
-        ArrayList<String> input = new ArrayList<>();
-        String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
-            while((read = in.readLine()) != null) {
-                input.add(read.trim());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Day4.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
     }
     
     private static void splitInput(ArrayList<String> input) {
@@ -130,6 +113,7 @@ public class Day4 {
         }
         return alphabet;
     }
+    
     private static int[][] topFiveChars(int[] alphabet) {
         int[][] topFiveArray = new int[5][2];
         for(int i = 0; i < 26; i++) {

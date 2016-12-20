@@ -46,33 +46,34 @@ import java.util.regex.Pattern;
  * @author hodges-olan
  */
 public class Day7 {
-    private static final String FILEPATH = "day7.txt";
-    private static final ArrayList<String> INPUT = new ArrayList<>();
-    
+
     public static void main(String[] args) {
-        readFile();
+        String filePath = "day7.txt";
+        ArrayList<String> input = readFile(filePath);
         
         // Part 1
-        System.out.println("Part One: " + partOne());
+        System.out.println("Part One: " + partOne(input));
         
         // Part2
-        System.out.println("Part Two: " + partTwo());
+        System.out.println("Part Two: " + partTwo(input));
     }
     
-    private static void readFile() {
+    private static ArrayList<String> readFile(String filePath) {
+        ArrayList<String> input = new ArrayList<>();
         String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((read = in.readLine()) != null) {
-                INPUT.add(read.trim());
+                input.add(read.trim());
             }
         } catch (IOException ex) {
             Logger.getLogger(Day7.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return input;
     }
     
-    private static int partOne() {
+    private static int partOne(ArrayList<String> input) {
         int total = 0;
-        for(String eachInput : INPUT) {
+        for(String eachInput : input) {
             String address = compileString("^\\w+|\\w+$|(?<=\\])\\w+", eachInput);
             if(findABBA(address)) {
                 String hypernetAddress = compileString("(?<=\\[)\\w+", eachInput);
@@ -84,9 +85,9 @@ public class Day7 {
         return total;
     }
     
-    private static int partTwo() {
+    private static int partTwo(ArrayList<String> input) {
         int total = 0;
-        for(String eachInput : INPUT) {
+        for(String eachInput : input) {
             String address = compileString("^\\w+|\\w+$|(?<=\\])\\w+", eachInput);
             ArrayList<String> matches = findABA(address);
             if(!matches.isEmpty()) {

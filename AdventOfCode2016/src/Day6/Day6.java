@@ -55,60 +55,45 @@ import java.util.logging.Logger;
  */
 public class Day6 {
     
-    private static final String FILEPATH = "day6.txt";
-    private static final ArrayList<char[]> INPUT = new ArrayList<>();    
-    
     public static void main(String[] args) {
-        readFile();
+        String filePath = "day6.txt";
+        ArrayList<char[]> input = readFile(filePath);
         // Part 1
-        System.out.println(findMessagePartOne());
+        System.out.println("Part One: " + findMessage(input, false));
         
         // Part2
-        System.out.println(findMessagePartTwo());
+        System.out.println("Part Two: " + findMessage(input, true));
     }
     
-    private static void readFile() {
+    private static ArrayList<char[]> readFile(String filePath) {
+        ArrayList<char[]> input = new ArrayList<>();
         String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((read = in.readLine()) != null) {
-                INPUT.add(read.trim().toCharArray());
+                input.add(read.trim().toCharArray());
             }
         } catch (IOException ex) {
             Logger.getLogger(Day6.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return input;
     }
 
-    private static String findMessagePartOne() {
+    private static String findMessage(ArrayList<char[]> input, boolean partTwo) {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 8; i++) {
             int[] alphabet = new int[26];
             int common = 0;
             int max = 0;
-            for(char[] charInput : INPUT) {
+            int min = 9000;
+            for(char[] charInput : input) {
                 alphabet[(((int) charInput[i])-97)]++;
             }
             for(int j = 0; j < 26; j++) {
-                if(alphabet[j] > max) {
+                if(!partTwo && alphabet[j] > max) {
                     common = j;
                     max = alphabet[j];
                 }
-            }
-            sb.append((char) (common+97));
-        }
-        return sb.toString();
-    }
-
-    private static String findMessagePartTwo() {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < 8; i++) {
-            int[] alphabet = new int[26];
-            int common = 0;
-            int min = 9000;
-            for(char[] charInput : INPUT) {
-                alphabet[(((int) charInput[i])-97)]++;
-            }
-            for(int j = 0; j < 26; j++) {
-                if(alphabet[j] < min && alphabet[j] != 0) {
+                if(partTwo && alphabet[j] < min && alphabet[j] != 0) {
                     common = j;
                     min = alphabet[j];
                 }

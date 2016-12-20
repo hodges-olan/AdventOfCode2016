@@ -58,6 +58,7 @@ public class Day6 {
     public static void main(String[] args) {
         String filePath = "day6.txt";
         ArrayList<char[]> input = readFile(filePath);
+        
         // Part 1
         System.out.println("Part One: " + findMessage(input, false));
         

@@ -47,57 +47,42 @@ import java.util.regex.Pattern;
  * @author hodges-olan
  */
 public class Day4 {
-    private static final String FILEPATH = "day4.txt";
-    private static final ArrayList<String> INPUT = new ArrayList<>();
     private static final ArrayList<String> ROOMS = new ArrayList<>();
     private static final ArrayList<String> CHECKSUMS = new ArrayList<>();
     private static final ArrayList<Integer> SECTORIDS = new ArrayList<>();
     private static final ArrayList<Integer> INVALIDROOMS = new ArrayList<>();
     
     public static void main(String[] args) {
-        int total1 = 0;
-        readFile();
-        splitInput();
+        String filePath = "day4.txt";
+        ArrayList<String> input = readFile(filePath);
+        splitInput(input);
         
         // Part 1
-        for(int i = 0; i < ROOMS.size(); i++) {
-            int[] alphabet = countCharacters(i);
-            int[][] topFive = topFiveChars(alphabet);
-            if(!validRoom(topFive, i)) INVALIDROOMS.add(i);
-        }
-        removeInvalidRooms();
-        for(int i = 0; i < ROOMS.size(); i++) {
-            total1 += SECTORIDS.get(i);
-        }
-        System.out.println("Part 1: " + total1);
+        System.out.println("Part 1: " + partOne());
         
         // Part 2
-        String roomName;
-        for(int i = 0; i < ROOMS.size(); i++) {
-            roomName = decryptRoom(i);
-            if(roomName.equalsIgnoreCase("northpole object storage")) {
-                System.out.println("Part 2: " + SECTORIDS.get(i));
-            }
-        }
+        System.out.println("Part 2: " + partTwo());
     }
     
-    private static void readFile() {
+    private static ArrayList<String> readFile(String filePath) {
+        ArrayList<String> input = new ArrayList<>();
         String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((read = in.readLine()) != null) {
-                INPUT.add(read.trim());
+                input.add(read.trim());
             }
         } catch (IOException ex) {
             Logger.getLogger(Day4.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return input;
     }
     
-    private static void splitInput() {
+    private static void splitInput(ArrayList<String> input) {
         Pattern pRoom = Pattern.compile("^[a-zA-Z-]+");
         Pattern pNumber = Pattern.compile("\\d+");
         Pattern pChecksum = Pattern.compile("\\[\\w+\\]$");
         Matcher m;
-        for(String splitInput : INPUT) {
+        for(String splitInput : input) {
             m = pRoom.matcher(splitInput);
             while(m.find()) {
                 ROOMS.add(StringUtils.removeEnd(m.group(), "-"));
@@ -111,6 +96,31 @@ public class Day4 {
                 CHECKSUMS.add(StringUtils.removeAll(m.group(), "[\\[\\]]"));
             }
         }
+    }
+    
+    private static String partOne() {
+        int total1 = 0;
+        for(int i = 0; i < ROOMS.size(); i++) {
+            int[] alphabet = countCharacters(i);
+            int[][] topFive = topFiveChars(alphabet);
+            if(!validRoom(topFive, i)) INVALIDROOMS.add(i);
+        }
+        removeInvalidRooms();
+        for(int i = 0; i < ROOMS.size(); i++) {
+            total1 += SECTORIDS.get(i);
+        }
+        return Integer.toString(total1);
+    }
+    
+    private static String partTwo() {
+        String roomName;
+        for(int i = 0; i < ROOMS.size(); i++) {
+            roomName = decryptRoom(i);
+            if(roomName.equalsIgnoreCase("northpole object storage")) {
+                return Integer.toString(SECTORIDS.get(i));
+            }
+        }
+        return "null";
     }
     
     private static int[] countCharacters(int room) {

@@ -39,7 +39,6 @@ package Day10;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,136 +46,124 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 
 public class reddit_Day10 {
 
-  private static final HashMap<Integer, ArrayList<Integer>> BOTS = new HashMap<>();
-  private static final HashMap<Integer, ArrayList<Integer>> OUTPUTS = new HashMap<>();
-  private static final HashMap<Integer, String> TRANSFERSTORAGE = new HashMap<>();
+    private static final HashMap<Integer, ArrayList<Integer>> BOTS = new HashMap<>();
+    private static final HashMap<Integer, ArrayList<Integer>> OUTPUTS = new HashMap<>();
+    private static final HashMap<Integer, String> TRANSFERSTORAGE = new HashMap<>();
+    private static final int TARGET_CHIP_1 = 61;
+    private static final int TARGET_CHIP_2 = 17;
 
-  private static final int TARGET_CHIP_1 = 61;
-  private static final int TARGET_CHIP_2 = 17;
+    // Format: {low chip recipient} - {high chip recipient}
+    private static final String TRANSFERSTORAGEFORMAT = "%s%d - %s%d";
+    private static final String TRANSFER_STORAGE = "^([a-z]+)(\\d+) - ([a-z]+)(\\d+)$";
+    private static final Pattern TRANSFERSTORAGEPATTERN = Pattern.compile( TRANSFER_STORAGE );
+    private static final String ASSIGNMENT = "^value (\\d+) .* (\\d+)$";
+    private static final String TRANSFER = "^[a-z]+ (\\d+) .* ([a-z]+) (\\d+) .* ([a-z]+) (\\d+)$";
+    private static final Pattern ASSIGNMENTPATTERN = Pattern.compile( ASSIGNMENT );
+    private static final Pattern TRANSFERPATTERN = Pattern.compile( TRANSFER );
+    
+    public static void main(String[] args) {
+        String fileName = "day10.txt";
 
-  // Format: {low chip recipient} - {high chip recipient}
-  private static final String TRANSFERSTORAGEFORMAT = "%s%d - %s%d";
-  private static final String TRANSFER_STORAGE = "^([a-z]+)(\\d+) - ([a-z]+)(\\d+)$";
-  private static final Pattern TRANSFERSTORAGEPATTERN = Pattern.compile( TRANSFER_STORAGE );
-  private static final String ASSIGNMENT = "^value (\\d+) .* (\\d+)$";
-  private static final String TRANSFER = "^[a-z]+ (\\d+) .* ([a-z]+) (\\d+) .* ([a-z]+) (\\d+)$";
-  private static final Pattern ASSIGNMENTPATTERN = Pattern.compile( ASSIGNMENT );
-  private static final Pattern TRANSFERPATTERN = Pattern.compile( TRANSFER );
-
-  public static void main( String[] args ) {
-    String fileName = "day10.txt";
-
-    try {
-        try (FileReader reader = new FileReader( fileName )) {
-            BufferedReader bufferedReader = new BufferedReader( reader );
-            
-            String line;
-            
-            while ( ( line = bufferedReader.readLine() ) != null ) {
-                Matcher assignmentMatcher = ASSIGNMENTPATTERN.matcher( line );
-                Matcher transferMatcher = TRANSFERPATTERN.matcher( line );
+        try {
+            try(FileReader reader = new FileReader(fileName)) {
+                BufferedReader bufferedReader = new BufferedReader(reader);
+                String line;
                 
-                // If we directly assign a chip id to a bot, do that
-                if ( assignmentMatcher.matches() ) {
-                    int chipId = Integer.parseInt( assignmentMatcher.group( 1 ) );
-                    int botId = Integer.parseInt( assignmentMatcher.group( 2 ) );
+                while((line = bufferedReader.readLine()) != null) {
+                    Matcher assignmentMatcher = ASSIGNMENTPATTERN.matcher(line);
+                    Matcher transferMatcher = TRANSFERPATTERN.matcher(line);
                     
-                    addChipId( BOTS, botId, chipId );
-                } else if ( transferMatcher.matches() ) {
-                    // else store an encoding of a bot transfer
-                    int botId = Integer.parseInt( transferMatcher.group( 1 ) );
-                    String transfer = String.format(
-                            TRANSFERSTORAGEFORMAT,
-                            transferMatcher.group( 2 ),                       // low chip recipient type
-                            Integer.parseInt( transferMatcher.group( 3 ) ),   // low chip recipient id
-                            transferMatcher.group( 4 ),                       // high chip recipient type
-                            Integer.parseInt( transferMatcher.group( 5 ) ) ); // high chip recipient id
-                    
-                    TRANSFERSTORAGE.put( botId, transfer );
-                } else {
-                    System.out.format( "Unknown input instruction: \n%s\n", line );
-                    System.exit( 1 );
+                    // If we directly assign a chip id to a bot, do that
+                    if(assignmentMatcher.matches()) {
+                        int chipId = Integer.parseInt(assignmentMatcher.group(1));
+                        int botId = Integer.parseInt( assignmentMatcher.group(2));
+                        
+                        addChipId(BOTS, botId, chipId);
+                    } else if(transferMatcher.matches()) {
+                        // else store an encoding of a bot transfer
+                        int botId = Integer.parseInt(transferMatcher.group(1));
+                        String transfer = String.format(
+                                TRANSFERSTORAGEFORMAT,
+                                transferMatcher.group(2),                       // low chip recipient type
+                                Integer.parseInt(transferMatcher.group(3)),   // low chip recipient id
+                                transferMatcher.group(4),                       // high chip recipient type
+                                Integer.parseInt(transferMatcher.group(5))); // high chip recipient id
+                        
+                        TRANSFERSTORAGE.put(botId, transfer);
+                    } else {
+                        System.out.format("Unknown input instruction: \n%s\n", line);
+                        System.exit(1);
+                    }
+                }
+            }
+        } catch(IOException e) {
+            Logger.getLogger(reddit_Day10.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        // Now we go through all the bots ...
+        while(BOTS.size() > 0) {
+            HashSet<Map.Entry<Integer, ArrayList<Integer>>> botSet = new HashSet(BOTS.entrySet());
+
+            for(Map.Entry<Integer, ArrayList<Integer>> bot : botSet) {
+                int botId = bot.getKey();
+                ArrayList<Integer> chipIds = bot.getValue();
+                // ... and if a bot is holding 2 chips ...
+                if(chipIds.size() == 2) {
+                    // ... first check if we have the chips we want to look for ...
+                    if (chipIds.contains(TARGET_CHIP_1) && chipIds.contains(TARGET_CHIP_2)) {
+                        System.out.println(botId); // (part1) print the bot that holds these
+                    }
+              
+                    // ... then execute the transfer instruction
+                    String transfer = TRANSFERSTORAGE.get(botId);
+                    Matcher transferStorageMatcher = TRANSFERSTORAGEPATTERN.matcher(transfer);
+                
+                    // just for safety
+                    if(!transferStorageMatcher.matches()) {
+                        System.out.format("Transfer Storage format not recognized: \n%s\n", transfer);
+                        System.exit(1);
+                    }
+            
+                    String lowRecip = transferStorageMatcher.group(1);
+                    int lowRecipId = Integer.parseInt(transferStorageMatcher.group(2));
+                    String highRecip = transferStorageMatcher.group(3);
+                    int highRecipId = Integer.parseInt(transferStorageMatcher.group(4));
+                
+                    // sort the chip ids so that we know which one is low and high
+                    Collections.sort(chipIds);
+            
+                    switch(lowRecip) {
+                        case "bot": addChipId(BOTS, lowRecipId, chipIds.get(0)); break;
+                        case "output": addChipId(OUTPUTS, lowRecipId, chipIds.get(0)); break;
+                    }
+                
+                    switch(highRecip) {
+                        case "bot": addChipId(BOTS, highRecipId, chipIds.get(1)); break;
+                        case "output": addChipId(OUTPUTS, highRecipId, chipIds.get(1)); break;
+                    }
+            
+                    // finally remove the bot from the map, since the bot is done with work
+                    BOTS.remove(botId);
                 }
             }
         }
-    } catch ( IOException e ) {
-        Logger.getLogger(reddit_Day10.class.getName()).log(Level.SEVERE, null, e);
-    }
-
-    // Now we go through all the bots ...
-    while ( BOTS.size() > 0 ) {
-      HashSet<Map.Entry<Integer, ArrayList<Integer>>> botSet =
-        new HashSet( BOTS.entrySet() );
-
-      for ( Map.Entry<Integer, ArrayList<Integer>> bot : botSet ) {
-        int botId = bot.getKey();
-        ArrayList<Integer> chipIds = bot.getValue();
-        // ... and if a bot is holding 2 chips ...
-        if ( chipIds.size() == 2 ) {
-          // ... first check if we have the chips we want to look for ...
-          if ( chipIds.contains( TARGET_CHIP_1 ) &&
-              chipIds.contains( TARGET_CHIP_2 ) ) {
-            System.out.println( botId ); // (part1) print the bot that holds these
-          }
-
-          // ... then execute the transfer instruction
-          String transfer = TRANSFERSTORAGE.get( botId );
-          Matcher transferStorageMatcher =
-            TRANSFERSTORAGEPATTERN.matcher( transfer );
-
-          // just for safety
-          if ( !transferStorageMatcher.matches() ) {
-            System.out.format( "Transfer Storage format not recognized: \n%s\n",
-              transfer );
-            System.exit( 1 );
-          }
-
-          String lowRecip = transferStorageMatcher.group( 1 );
-          int lowRecipId = Integer.parseInt( transferStorageMatcher.group( 2 ) );
-          String highRecip = transferStorageMatcher.group( 3 );
-          int highRecipId = Integer.parseInt( transferStorageMatcher.group( 4 ) );
-
-          // sort the chip ids so that we know which one is low and high
-          Collections.sort( chipIds );
-
-          switch ( lowRecip ) {
-            case "bot": addChipId( BOTS, lowRecipId, chipIds.get( 0 ) ); break;
-            case "output": addChipId( OUTPUTS, lowRecipId, chipIds.get( 0 ) ); break;
-          }
-
-          switch( highRecip ) {
-            case "bot": addChipId( BOTS, highRecipId, chipIds.get( 1 ) ); break;
-            case "output": addChipId( OUTPUTS, highRecipId, chipIds.get( 1 ) ); break;
-          }
-
-          // finally remove the bot from the map, since the bot is done with work
-          BOTS.remove( botId );
+        
+        // (part2) multiply together the values of one cheap in each of the outputs 0, 1, 2
+        long result = 1;
+        for(int outputId = 0; outputId <= 2; outputId++ ) {
+            result *= OUTPUTS.get(outputId).get(0);
         }
-      }
+        System.out.println(result);
     }
 
-    // (part2) multiply together the values of one cheap in each of the outputs 0, 1, 2
-    long result = 1;
-    for ( int outputId = 0; outputId <= 2; outputId++ ) {
-      result *= OUTPUTS.get( outputId ).get( 0 );
+    private static void addChipId(HashMap<Integer, ArrayList<Integer>> map, int id, int chipId) {
+        if(!map.containsKey(id)) map.put( id, new ArrayList<>() );
+        map.get(id).add(chipId);
     }
-    System.out.println( result );
-  }
-
-  private static void addChipId(
-    HashMap<Integer, ArrayList<Integer>> map, int id, int chipId ) {
-
-    if ( !map.containsKey( id ) ) {
-      map.put( id, new ArrayList<>() );
-    }
-
-    map.get( id ).add( chipId );
-  }
 }

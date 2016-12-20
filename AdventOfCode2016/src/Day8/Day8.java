@@ -61,37 +61,39 @@ import java.util.logging.Logger;
  * @author hodges-olan
  */
 public class Day8 {
-    private static final String FILEPATH = "day8.txt";
-    private static final ArrayList<String[]> INPUT = new ArrayList<>();
     private static final int ROWS = 6;
     private static final int COLUMNS = 50;
     private static final char[][] PIXELS = new char[ROWS][COLUMNS];
     
     public static void main(String[] args) {
-        readFile();
+        String filePath = "day8.txt";
+        ArrayList<String[]> input = readFile(filePath);
         
         // Part 1
         System.out.println("Part One: ");
-        partOne();
+        partOne(input);
         
         // Part2
         System.out.println("Part Two: ");
         partTwo();
+        
     }
     
-    private static void readFile() {
+    private static ArrayList<String[]> readFile(String filePath) {
+        ArrayList<String[]> input = new ArrayList<>();
         String read;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((read = in.readLine()) != null) {
-                INPUT.add(read.trim().split(" "));
+                input.add(read.trim().split(" "));
             }
         } catch (IOException ex) {
             Logger.getLogger(Day8.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return input;
     }
     
-    private static void partOne() {
-        for(String[] directions : INPUT) {
+    private static void partOne(ArrayList<String[]> input) {
+        for(String[] directions : input) {
             performAction(directions);
         }
         displayPanel();

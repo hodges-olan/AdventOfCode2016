@@ -98,32 +98,11 @@ public class Day2 {
     }
     
     private static char[][] initializeRealKeypad() {
-        char[][] realKeypad = new char[5][5];
-        realKeypad[0][0] = 'X';
-        realKeypad[0][1] = 'X';
-        realKeypad[0][2] = '1';
-        realKeypad[0][3] = 'X';
-        realKeypad[0][4] = 'X';
-        realKeypad[1][0] = 'X';
-        realKeypad[1][1] = '2';
-        realKeypad[1][2] = '3';
-        realKeypad[1][3] = '4';
-        realKeypad[1][4] = 'X';
-        realKeypad[2][0] = '5';
-        realKeypad[2][1] = '6';
-        realKeypad[2][2] = '7';
-        realKeypad[2][3] = '8';
-        realKeypad[2][4] = '9';
-        realKeypad[3][0] = 'X';
-        realKeypad[3][1] = 'A';
-        realKeypad[3][2] = 'B';
-        realKeypad[3][3] = 'C';
-        realKeypad[3][4] = 'X';
-        realKeypad[4][0] = 'X';
-        realKeypad[4][1] = 'X';
-        realKeypad[4][2] = 'D';
-        realKeypad[4][3] = 'X';
-        realKeypad[4][4] = 'X';
+        char[][] realKeypad = {{'X','X','1','X','X'}
+                             , {'X','2','3','4','X'}
+                             , {'5','6','7','8','9'}
+                             , {'X','A','B','C','X'}
+                             , {'X','X','D','X','X'}};
         return realKeypad;
     }
     

@@ -42,51 +42,60 @@ import java.util.logging.Logger;
  * @author hodges-olan
  */
 public class Day3 {
-    private static final String FILEPATH = "day3.txt";
-    private static final ArrayList<Integer[]> TRIANGLES = new ArrayList<>();
     
     public static void main(String[] args) {
-        readFile();
+        String filePath = "day3.txt";
+        ArrayList<Integer[]> triangles = readFile(filePath);
         
         // Part 1
-        int answer1 = 0;
-        for(Integer[] dimension : TRIANGLES) {
-            if (dimension[0] + dimension[1] > dimension[2]
-             && dimension[1] + dimension[2] > dimension[0]
-             && dimension[0] + dimension[2] > dimension[1]) {
-                answer1++;
-            }
-        }
-        System.out.println("Part 1: " + answer1);
+        System.out.println("Part 1: " + partOne(triangles));
         
         // Part 2
-        int answer2 = 0;
-        for(int i = 0; i < TRIANGLES.size()-2; i = i + 3) {
-            Integer[] row1 = TRIANGLES.get(i);
-            Integer[] row2 = TRIANGLES.get(i+1);
-            Integer[] row3 = TRIANGLES.get(i+2);
-            for(int j = 0; j < 3; j++) {
-                if(row1[j] + row2[j] > row3[j] && row2[j] + row3[j] > row1[j] && row1[j] + row3[j] > row2[j]) { answer2++; }
-            }
-        }
-        System.out.println("Part 2: " + answer2);
+        System.out.println("Part 2: " + partTwo(triangles));
     }
     
-    private static void readFile() {
+    private static ArrayList<Integer[]> readFile(String filePath) {
         String read;
         String[] readString;
-        try (BufferedReader in = new BufferedReader(new FileReader(FILEPATH))) {
+        ArrayList<Integer[]> triangles = new ArrayList<>();
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             while((read = in.readLine()) != null) {
                 readString = read.trim().split("\\s+");
                 Integer[]nums = new Integer[readString.length];
                 for(int i = 0; i < readString.length; i++) {
                     nums[i] = Integer.parseInt(readString[i]);
                 }
-                TRIANGLES.add(nums);
+                triangles.add(nums);
             }
         } catch (IOException ex) {
             Logger.getLogger(Day3.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return triangles;
+    }
+
+    private static String partOne(ArrayList<Integer[]> triangles) {
+        int answer1 = 0;
+        for(Integer[] dimension : triangles) {
+            if (dimension[0] + dimension[1] > dimension[2]
+             && dimension[1] + dimension[2] > dimension[0]
+             && dimension[0] + dimension[2] > dimension[1]) {
+                answer1++;
+            }
+        }
+        return Integer.toString(answer1);
+    }
+
+    private static String partTwo(ArrayList<Integer[]> triangles) {
+        int answer2 = 0;
+        for(int i = 0; i < triangles.size()-2; i = i + 3) {
+            Integer[] row1 = triangles.get(i);
+            Integer[] row2 = triangles.get(i+1);
+            Integer[] row3 = triangles.get(i+2);
+            for(int j = 0; j < 3; j++) {
+                if(row1[j] + row2[j] > row3[j] && row2[j] + row3[j] > row1[j] && row1[j] + row3[j] > row2[j]) { answer2++; }
+            }
+        }
+        return Integer.toString(answer2);
     }
     
 }

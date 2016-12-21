@@ -48,6 +48,12 @@
 //Your puzzle answer was 578.
 //
 //Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//Your puzzle input was gdjjyniy.
+//
+//You can also [Share] this puzzle.
 
 package Day17;
 

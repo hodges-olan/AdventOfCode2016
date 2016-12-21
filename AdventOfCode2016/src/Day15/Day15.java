@@ -6,7 +6,7 @@
 //
 //The discs pause their motion each second and come in different sizes; they seem to each have a fixed number of positions at which they stop. You decide to call the position with the slot 0, and count up for each position it reaches next.
 //
-//Furthermore, the discs are spaced out so that after you push the button, one second elapses before the first disc is reached, and one second elapses as the capsule passes from one disk to the one below it. So, if you push the button at time=100, then the capsule reaches the top disc at time=101, the second disc at time=102, the third disc at time=103, and so on.
+//Furthermore, the discs are spaced out so that after you push the button, one second elapses before the first disc is reached, and one second elapses as the capsule passes from one disc to the one below it. So, if you push the button at time=100, then the capsule reaches the top disc at time=101, the second disc at time=102, the third disc at time=103, and so on.
 //
 //The button will only drop a capsule at an integer time - no fractional seconds allowed.
 //
@@ -35,6 +35,12 @@
 //Your puzzle answer was 3903937.
 //
 //Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//If you still want to see it, you can get your puzzle input.
+//
+//You can also [Share] this puzzle.
 
 package Day15;
 

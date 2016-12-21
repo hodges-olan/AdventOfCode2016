@@ -1,4 +1,4 @@
-////--- Day 14: One-Time Pad ---
+//--- Day 14: One-Time Pad ---
 //
 //In order to communicate securely with Santa while you're on this mission, you've been using a one-time pad that you generate using a pre-agreed algorithm. Unfortunately, you've run out of keys in your one-time pad, and so you need to generate some more.
 //
@@ -53,6 +53,8 @@
 //At this point, you should return to your advent calendar and try another puzzle.
 //
 //Your puzzle input was ihaygndm.
+//
+//You can also [Share] this puzzle.
 
 package Day14;
 

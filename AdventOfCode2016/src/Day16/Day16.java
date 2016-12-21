@@ -53,6 +53,12 @@
 //Your puzzle answer was 01001101001000101.
 //
 //Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//Your puzzle input was 10111011111001111.
+//
+//You can also [Share] this puzzle.
 
 package Day16;
 

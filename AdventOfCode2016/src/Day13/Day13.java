@@ -48,6 +48,8 @@
 //At this point, you should return to your advent calendar and try another puzzle.
 //
 //Your puzzle input was 1364.
+//
+//You can also [Share] this puzzle.
 
 //  Notes to review later
 //  http://imgur.com/a/N7ZPO

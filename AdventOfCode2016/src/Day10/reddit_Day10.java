@@ -33,6 +33,12 @@
 //Your puzzle answer was 143153.
 //
 //Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//If you still want to see it, you can get your puzzle input.
+//
+//You can also [Share] this puzzle.
 
 package Day10;
 

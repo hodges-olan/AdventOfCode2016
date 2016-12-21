@@ -29,6 +29,14 @@
 //What is the sector ID of the room where North Pole objects are stored?
 //
 //Your puzzle answer was 984.
+//
+//Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//If you still want to see it, you can get your puzzle input.
+//
+//You can also [Share] this puzzle.
 
 package Day4;
 

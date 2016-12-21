@@ -35,6 +35,14 @@
 //Given the actual Door ID and this new method, what is the password? Be extra proud of your solution if it uses a cinematic "decrypting" animation.
 //
 //Your puzzle answer was 437e60fc.
+//
+//Both parts of this puzzle are complete! They provide two gold stars: **
+//
+//At this point, you should return to your advent calendar and try another puzzle.
+//
+//Your puzzle input was wtnhxymk.
+//
+//You can also [Share] this puzzle.
 
 package Day5;
 

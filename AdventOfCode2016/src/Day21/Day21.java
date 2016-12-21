@@ -134,33 +134,8 @@ public class Day21 {
                             password = rotate(password, Integer.parseInt(instruction[2]) * -1);
                             break;
                         case "based":
-                            int rotate = 0;
-                            switch (password.indexOf(instruction[6])) {
-                                case 0:
-                                    rotate = -1;
-                                    break;
-                                case 1:
-                                    rotate = -1;
-                                    break;
-                                case 2:
-                                    rotate = 2;
-                                    break;
-                                case 3:
-                                    rotate = -2;
-                                    break;
-                                case 4:
-                                    rotate = 1;
-                                    break;
-                                case 5:
-                                    rotate = -3;
-                                    break;
-                                case 6:
-                                    rotate = 0;
-                                    break;
-                                case 7:
-                                    rotate = 4;
-                                    break;
-                            }
+                            int index = password.indexOf(instruction[6]);
+                            int rotate = -1 * (index / 2 + (index % 2 == 1 || index == 0 ? 1 : 5));
                             password = rotate(password, rotate);
                             break;
                     }

@@ -123,11 +123,16 @@ public class Day22 {
         ArrayList<String[]> input = FileIO.readFileToArrayListStringArray(filePath, "\\s+");
         
         // Part 1
+        long start = System.currentTimeMillis();
         System.out.println("Part One: " + partOne(input));
+        System.out.println("Runtime in ms = " + (System.currentTimeMillis() - start));
         
         // Part2
+        start = System.currentTimeMillis();
+        storageNode[][] storageNodes = createNodes(input);
         System.out.println("Part Two:");
-        System.out.println(partTwo(input));
+        System.out.println(partTwo(storageNodes));
+        System.out.println("Runtime in ms = " + (System.currentTimeMillis() - start));
         
     }
 
@@ -147,8 +152,7 @@ public class Day22 {
         return Integer.toString(viablePairs.size());
     }
 
-    private static String partTwo(ArrayList<String[]> input) {
-        storageNode[][] storageNodes = createNodes(input);
+    private static String partTwo(storageNode[][] storageNodes) {
         StringBuilder sb = new StringBuilder();
         for(int y = 0; y < 35; y++) {
             for(int x = 0; x < 30; x++) {

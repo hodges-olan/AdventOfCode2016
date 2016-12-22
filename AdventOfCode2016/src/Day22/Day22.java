@@ -137,7 +137,7 @@ public class Day22 {
     }
 
     private static String partOne(ArrayList<String[]> input) {
-        HashSet viablePairs = new HashSet();
+        HashSet<String> viablePairs = new HashSet();
         for(String[] nodeA : input) {
             for(String[] nodeB : input) {
                 if(!nodeA[0].equals(nodeB[0])) {
